@@ -1,0 +1,26 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Publish
+
+# Controls when the action will run. Triggers the workflow on push or pull request 
+# events but only for the master branch
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Installing dependencies
+      run: yarn install
+
+    # Packaging and Publishing the extension
+    - name: Publishing the extension
+      run: |
+        yarn publish -p $VSCE_TOKEN
+      env:
+        VSCE_TOKEN: ${{secrets.VSCE_TOKEN}} 
