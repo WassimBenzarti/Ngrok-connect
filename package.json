@@ -3,6 +3,7 @@
 	"displayName": "ngrok-connect",
 	"description": "An unofficial Ngrok extension that let's you see all the tunnels and connect to SSH ones",
 	"version": "0.0.1",
+	"publisher": "wassimbenzarti",
 	"engines": {
 		"vscode": "^1.42.0"
 	},
@@ -12,6 +13,11 @@
 	"activationEvents": [
 		"*"
 	],
+	"author": {
+		"email": "m.wassim.benzarti@gmail.com",
+		"name": "Wassim Benzarti",
+		"url": "https://github.com/WassimBenzarti"
+	},
 	"main": "./out/extension.js",
 	"contributes": {
 		"views": {
@@ -46,7 +52,7 @@
 		"watch": "tsc -watch -p ./",
 		"pretest": "npm run compile && npm run lint",
 		"test": "node ./out/test/runTest.js",
-		"deploy": "vsce package && vsce publish"
+		"publish": "vsce publish --yarn"
 	},
 	"devDependencies": {
 		"@types/glob": "^7.1.1",
@@ -60,6 +66,7 @@
 		"glob": "^7.1.6",
 		"mocha": "^7.0.1",
 		"typescript": "^3.7.5",
+		"vsce": "^1.74.0",
 		"vscode-test": "^1.3.0"
 	},
 	"dependencies": {
