@@ -22,5 +22,6 @@ jobs:
     - name: Publishing the extension
       run: |
         yarn deploy -p $VSCE_TOKEN
+      continue-on-error: true
       env:
         VSCE_TOKEN: ${{secrets.VSCE_TOKEN}} 
