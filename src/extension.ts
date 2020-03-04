@@ -49,11 +49,14 @@ export function activate(context: vscode.ExtensionContext) {
 				config.append({
 					Host:address,
 					HostName: address,
+					User:"root",
 					Port: port,
 				});
 			}
 			const finalConfig = sshConfig.stringify(config)
 			fs.writeFileSync(configPath.fsPath,finalConfig);
+
+			vscode.commands.executeCommand("opensshremotes.openEmptyWindow")
 		}
 	})
 

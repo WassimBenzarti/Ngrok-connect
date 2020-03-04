@@ -2,7 +2,7 @@
 	"name": "ngrok-connect",
 	"displayName": "ngrok-connect",
 	"description": "An unofficial Ngrok extension that let's you see all the tunnels and connect to SSH ones",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"publisher": "wassimbenzarti",
 	"repository": {
 		"type": "git",
@@ -37,7 +37,7 @@
 				{
 					"id": "tunnel-explorer",
 					"title": "Tunnel Explorer",
-					"icon": "media/tunnel.png"
+					"icon": "media/tunnel.svg"
 				}
 			]
 		},
