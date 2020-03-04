@@ -21,6 +21,6 @@ jobs:
     # Packaging and Publishing the extension
     - name: Publishing the extension
       run: |
-        yarn publish -p $VSCE_TOKEN
+        yarn deploy -p $VSCE_TOKEN
       env:
         VSCE_TOKEN: ${{secrets.VSCE_TOKEN}} 
