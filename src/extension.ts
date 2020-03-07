@@ -2,16 +2,16 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import { TunnelProvider } from './TunnelProvider';
-// @ts-ignore
-import * as sshConfig from "ssh-config"
-import * as fs from "fs";
-import { hostname } from 'os';
+
+import setSshConfig from './commands/setSshConfig';
+import refreshTunnels from './commands/refreshTunnels';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
 
-	vscode.window.registerTreeDataProvider('tunnelExplorerView', new TunnelProvider())
+	const tunnelProvider = new TunnelProvider();
+	vscode.window.registerTreeDataProvider('tunnelExplorerView', tunnelProvider)
 
 	vscode.commands.registerCommand("tunnels.connect", () => {
 		vscode.window.showInformationMessage('Connecting to tunnel!');
@@ -26,42 +26,9 @@ export function activate(context: vscode.ExtensionContext) {
 	// The commandId parameter must match the command field in package.json
 
 
-	let disposable = vscode.commands.registerCommand("extension.editConfig", async (data) => {
-		if(!data.match(/^tcp\:\/\/.*:\d+$/)){
-			return vscode.window.showErrorMessage("The address doesn't look right");
-		}
-		const homedir = require('os').homedir();
-		const configPath = vscode.Uri.parse(homedir+"\\.ssh\\config");
-		const [full, address, port] = data.match(/\/\/(.*):(\d+)/);
-
-		if(fs.existsSync(configPath.scheme+":"+configPath.fsPath)){
-			const output = fs.readFileSync(configPath.fsPath).toString()
-			const config = sshConfig.parse(output)
-
-			const found = config.compute(address);
-			
-			if(found.hasOwnProperty("Host")){
-				config.remove({Host:address})
-				found.Port = port
-				found.HostName = address.replace("tcp","ssh");
-				config.append(found);
-			}else{
-				config.append({
-					Host:address,
-					HostName: address,
-					User:"root",
-					Port: port,
-				});
-			}
-			const finalConfig = sshConfig.stringify(config)
-			fs.writeFileSync(configPath.fsPath,finalConfig);
-
-			vscode.commands.executeCommand("opensshremotes.openEmptyWindow")
-		}
-	})
-
 	context.subscriptions.push(
-		disposable
+		vscode.commands.registerCommand("extension.setSshConfig", setSshConfig),
+		vscode.commands.registerCommand("extension.refresh", refreshTunnels(tunnelProvider)),
 	);
 }
 

@@ -2,10 +2,14 @@ import * as vscode from "vscode";
 import fetch from "node-fetch"
 
 export class TunnelProvider implements vscode.TreeDataProvider<Tunnel> {
-    onDidChangeTreeData?: vscode.Event<Tunnel> | undefined;
+    private onDidChangeEmitter: vscode.EventEmitter<Tunnel | undefined> = new vscode.EventEmitter<Tunnel|undefined>();
+    onDidChangeTreeData?: vscode.Event<Tunnel| undefined >= this.onDidChangeEmitter.event;
 
     constructor(){
-        console.log("constructing")
+    }
+
+    refresh(){
+        this.onDidChangeEmitter.fire();
     }
 
     getTreeItem(element: any): vscode.TreeItem | Thenable<Tunnel> {
@@ -20,7 +24,7 @@ export class TunnelProvider implements vscode.TreeDataProvider<Tunnel> {
             .then(r => r.json())
             .then((data) => {
                 return [new Tunnel(data.host,vscode.TreeItemCollapsibleState.None,{
-                    command:"extension.editConfig",
+                    command:"extension.setSshConfig",
                     title:"Connect to SSH",
                     arguments:[
                         data.host,

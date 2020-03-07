@@ -2,7 +2,7 @@
 	"name": "ngrok-connect",
 	"displayName": "ngrok-connect",
 	"description": "An unofficial Ngrok extension that let's you see all the tunnels and connect to SSH ones",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"publisher": "wassimbenzarti",
 	"repository": {
 		"type": "git",
@@ -43,11 +43,26 @@
 		},
 		"commands": [
 			{
-				"command": "extension.editConfig",
-				"title": "Edit SSH config",
+				"command": "extension.setSshConfig",
+				"title": "Update SSH config",
+				"category": "Ngrok Connect"
+			},
+			{
+				"command": "extension.refresh",
+				"title": "Refresh",
+				"icon": "$(refresh)",
 				"category": "Ngrok Connect"
 			}
-		]
+		],
+		"menus": {
+			"view/title": [
+				{
+					"command": "extension.refresh",
+					"when": "view == tunnelExplorerView",
+					"group": "navigation"
+				}
+			]
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
